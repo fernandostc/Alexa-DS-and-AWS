@@ -6,4 +6,5 @@ ALEXA, DEEP SECURITY, AND AWS
 
 A Python 3 integration using Falsk-ask to integrate with Deep Security Web API's and AWScli.
 
->NOTE: This is a very initial commit and not recommended for use in production yet.
+>NOTE: This is a very initial commit and not recommended for use in production environment yet.
+
