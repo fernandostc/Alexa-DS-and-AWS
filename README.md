@@ -1,10 +1,10 @@
-ALEXA, DEEP SECURITY, AND AWS
+Voice Control Security Automation
 ===
 
 ![](Docs/Architecture/architecture.png)
 
 
-A Python 3 integration using Falsk-ask to integrate with Deep Security Web API's and AWScli.
+A Python 3 integration using Falsk-ask to integrate with Deep Security Web API's, Alexa, and AWScli.
 
 >NOTE: This is a very initial commit and not recommended for use in production environment yet.
 
