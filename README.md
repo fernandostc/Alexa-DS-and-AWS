@@ -45,12 +45,21 @@ $ . AlexaLab/bin/activate
 
 
 
-# Creating Alexa Lab - (awscli Install)
+# Creating Alexa Lab - (awscli install)
 
 * Install [awscli] inside the virtualenv AlexaLab
 ```sh
   $ pip install awscli
 ```
+
+# Project Files Description
+
+| Files Name | Description |
+| ------ | ------ |
+| sec_in_cloud.py | The main code to be used by the Flask-ask web service|
+| templates.yaml | YAML file for speech templates|
+| SecDashCloud.json | Cloud Formation JSON code to deploy a demo environment|
+| deploy_ds | Deployment script for Deep Security Agent |
 
 
 # Video demo about Project :movie_camera:
