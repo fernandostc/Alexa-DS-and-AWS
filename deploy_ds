@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+wget https://app.deepsecurity.trendmicro.com:443/software/agent/amzn1/x86_64/ -O /tmp/agent.rpm --quiet
+rpm -ihv /tmp/agent.rpm
+sleep 15
+/opt/ds_agent/dsa_control -r
+#!Please add tenantID, tenantPassword, and policyid to activate DSA properly
+/opt/ds_agent/dsa_control -a dsm://agents.deepsecurity.trendmicro.com:443/ "tenantID:(add tenantID)" "tenantPassword:(add tenanantPassword)" "policyid:(add policyid)"

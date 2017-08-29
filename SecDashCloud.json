@@ -1,0 +1,230 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "AWS CloudFormation: Alexa SecDashCloud",
+
+  "Parameters" : {
+    "KeyName": {
+      "Description" : "Name of an existing EC2 KeyPair to enable SSH or RDP access to the instance",
+      "Type": "AWS::EC2::KeyPair::KeyName",
+      "Default" : "secdashcloud",
+      "ConstraintDescription" : "Must be the name of an existing EC2 KeyPair."
+    },
+
+    "InstanceType" : {
+      "Description" : "EC2 instance type",
+      "Type" : "String",
+      "Default" : "t2.micro",
+      "AllowedValues" : [ "t1.micro", "t2.nano", "t2.micro", "t2.small"]
+,
+      "ConstraintDescription" : "Must be a valid EC2 instance type."
+    },
+
+    "HostedZone" : {
+      "Description" : "The DNS name of an existing Amazon Route 53 Hosted Zone",
+      "Type" : "String",
+      "Default" : "www.insert-your-dns.com"
+     },
+
+    "VPC": {
+        "Description" : "ID of an existing VPC",
+        "Type"        : "String",
+        "Default" : "insert-your-vpcid"
+    },
+
+    "ProjectName": {
+        "Description" : "Project Name",
+        "Type"        : "String",
+        "Default" : "Alexa SecDashCloud"
+    },
+
+    "BuildVersion": {
+        "Description" : "Build version",
+        "Type"        : "String",
+        "Default" : "9.0"
+    },
+
+    "Subnet": {
+        "Description" : "ID of an existing Public VPC Subnet",
+        "Type": "String",
+        "Default" : "insert-your-subnetid"
+    },
+
+    "WEBLocation" : {
+      "Description" : "The IP address range that will be able to access the Web Application Services - Port 80 and/or 443",
+      "Type": "String",
+      "MinLength": "9",
+      "MaxLength": "18",
+      "Default": "0.0.0.0/0",
+      "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+      "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
+   },
+      "DSA" : {
+      "Description" : "The IP address range that will be able to access the Deep Security Agent Services - Port 4118",
+      "Type": "String",
+      "MinLength": "9",
+      "MaxLength": "18",
+      "Default": "0.0.0.0/0",
+      "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+      "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
+   },
+
+    "RDPLocation" : {
+      "Description" : "The IP address range that will be able to access the RDP Services - Port 3389",
+      "Type": "String",
+      "MinLength": "9",
+      "MaxLength": "18",
+      "Default": "0.0.0.0/0",
+      "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+      "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
+   },
+
+    "Ping" : {
+      "Description" : "The IP address range that will be able to access the ICMP Services Echo Reply",
+      "Type": "String",
+      "MinLength": "9",
+      "MaxLength": "18",
+      "Default": "0.0.0.0/0",
+      "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+      "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
+   },
+
+ "AppVersion" : {
+   "Description" : "Application Version",
+   "Default": "2",
+   "Type": "String",
+   "MinLength": "1",
+   "MaxLength": "10"
+},
+
+ "IAMRole" : {
+   "Description" : "IAM Role",
+   "Type": "String",
+   "Default" : "circleci-instances",
+   "MinLength": "1",
+   "MaxLength": "32"
+}
+
+  },
+
+  "Mappings" : {
+    "AWSInstanceType2Arch" : {
+      "t2.nano"     : { "Arch" : "HVM64"  },
+      "t2.micro"    : { "Arch" : "HVM64"  },
+      "t2.small"    : { "Arch" : "HVM64"  }
+    },
+
+    "AWSRegionArch2AMI" : {
+      "us-east-1"        : { "HVM64" : "ami-07cfc110" }
+    }
+
+},
+
+  "Resources" : {
+    "EC2Instance" : {
+      "Type" : "AWS::EC2::Instance",
+
+      "Properties" : {
+        "InstanceType" : { "Ref" : "InstanceType" },
+        "SecurityGroupIds" : [ { "Ref" : "InstanceSecurityGroup" } ],
+        "KeyName" : { "Ref" : "KeyName" },
+        "SubnetId": { "Ref": "Subnet" },
+        "IamInstanceProfile" : { "Ref": "IAMRole" },
+        "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
+                          { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "InstanceType" }, "Arch" ] } ] },
+        "Tags" : [ {
+              "Key" : "AppVersion",
+              "Value" : { "Ref" : "AppVersion" }
+            },
+            {
+                "Key" : "Project",
+                "Value" : "SecDashCloud"
+            },
+            {
+                "Key" : "Network",
+                "Value" : "Production"
+            },
+            {
+                "Key" : "Type",
+                "Value" : "Web Server"
+            }
+
+            ]
+
+      }
+    },
+
+   "DNSRecord" : {
+      "Type" : "AWS::Route53::RecordSet",
+      "Properties" : {
+          "HostedZoneName" : {
+            "Fn::Join" : [ "", [
+               { "Ref" : "HostedZone" }, "."
+            ] ]
+         },
+         "Comment" : "Public DNS name for the instance.",
+         "Name" : {
+            "Fn::Join" : [ "", [
+               {"Ref" : "HostedZone"} ,"."
+            ] ]
+         },
+         "Type" : "A",
+         "TTL" : "900",
+         "ResourceRecords" : [
+            { "Fn::GetAtt" : [ "EC2Instance", "PublicIp" ] }
+         ]
+      }
+   },
+
+    "InstanceSecurityGroup" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" },
+        "GroupDescription" : "Enable RDP, DSA, ICMP Echo Reply and HTTP",
+        "SecurityGroupIngress" : [ {
+          "IpProtocol" : "tcp",
+          "FromPort" : "3389",
+          "ToPort" : "3389",
+          "CidrIp" : { "Ref" : "RDPLocation"}
+        },
+         {
+          "IpProtocol" : "tcp",
+          "FromPort" : "4118",
+          "ToPort" : "4118",
+          "CidrIp" : { "Ref" : "DSA"}
+        },
+          {
+          "IpProtocol" : "icmp",
+          "FromPort" : "8",
+          "ToPort" : "-1",
+          "CidrIp" : { "Ref" : "Ping"}
+        },
+        {
+          "IpProtocol" : "tcp",
+          "FromPort" : "80",
+          "ToPort" : "80",
+          "CidrIp" : { "Ref" : "WEBLocation"}
+        } ]
+      }
+    }
+},
+
+  "Outputs" : {
+    "InstanceId" : {
+      "Description" : "Instance ID from the newest EC2",
+      "Value" : { "Ref" : "EC2Instance" }
+    },
+    "AZ" : {
+      "Description" : "Availability Zone of the newest EC2",
+      "Value" : { "Fn::GetAtt" : [ "EC2Instance", "AvailabilityZone" ] }
+    },
+    "PublicDNS" : {
+      "Description" : "Public DNS Name of the newest EC2",
+      "Value" : { "Fn::GetAtt" : [ "EC2Instance", "PublicDnsName" ] }
+    },
+    "PublicIP" : {
+      "Description" : "Public IP address of the newest EC2",
+      "Value" : { "Fn::GetAtt" : [ "EC2Instance", "PublicIp" ] }
+    }
+  }
+}
