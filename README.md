@@ -61,6 +61,8 @@ $ . AlexaLab/bin/activate
 | SecDashCloud.json | Cloud Formation JSON code to deploy a demo environment|
 | deploy_ds | Deployment script for Deep Security Agent |
 
+:warning:`OBS:. There are comments in each file for the code lines that you will need to update with your own information.`
+
 
 # Video demo about Project :movie_camera:
 - [Video Demo]
