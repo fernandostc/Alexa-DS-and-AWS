@@ -4,7 +4,7 @@ Security Automation by Voice Control
 ![](Docs/Architecture/architecture.png)
 
 
-A Python 3 integration using Falsk-ask to integrate with Deep Security Web API's, Alexa, and AWScli.
+A Python 3 integration using Falsk-ask to integrate with Deep Security Web API's, Alexa, and awscli.
 
 >NOTE: This is a very initial commit and not recommended for use in production environment yet.
 
@@ -22,7 +22,7 @@ $ . AlexaLab/bin/activate
 
 - [Flask-ask: Alexa Skills Kit Development]
 
-`OBS:. Before to go to the next steps make sure Flask-ask and Alexa Skill it’s working properly. You will need an Alexa Dot or Tap to complete this first step.`
+:warning:`OBS:. Before to go to the next steps make sure Flask-ask and Alexa Skill it’s working properly. You will need an Alexa Dot or Tap to complete this first step.`
 
 
 
@@ -35,7 +35,7 @@ $ . AlexaLab/bin/activate
   suds-py3 >= 1.2.0.0
   requests >= 2.9.1
 ```
-`OBS:. If not, install using pip install.`
+:warning:`OBS:. If not, install using pip install.`
 
 * Install DSP3 inside virtualenv
 
@@ -45,14 +45,25 @@ $ . AlexaLab/bin/activate
 
 
 
+# Creating Alexa Lab - (awscli Install)
+
+* Install [awscli] inside the virtualenv AlexaLab
+```sh
+  $ pip install awscli
+```
 
 
+# Video demo about Project :movie_camera:
+- [Video Demo]
 
 
 
 
 [//]: # (External Links)
+
 [virtualenv]:https://virtualenv.pypa.io/en/stable/
 [Flask-ask]:https://github.com/johnwheeler/flask-ask
 [Flask-ask: Alexa Skills Kit Development]:https://developer.amazon.com/blogs/post/Tx14R0IYYGH3SKT/flask-ask-a-new-python-framework-for-rapid-alexa-skills-kit-development
 [DSP3]:http://dsp3.readthedocs.io/en/latest/
+[Video Demo]:https://www.youtube.com/watch?v=WaE5hjnuPOU
+[awscli]:https://aws.amazon.com/cli/
