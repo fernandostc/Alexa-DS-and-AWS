@@ -1,7 +1,7 @@
 ALEXA, DEEP SECURITY, AND AWS
 ===
 
-![drawing](Docs/Architecture/architecture.png?raw "Alexa Integration")
+![](Docs/Architecture/architecture.png)
 
 
 A Python 3 integration using Falsk-ask to integrate with Deep Security Web API's and AWScli.
@@ -22,6 +22,8 @@ $ . AlexaLab/bin/activate
 [Flask-ask: Alexa Skills Kit Development]
 
 `OBS:. Before to go to the next steps make sure Flask-ask and Alexa Skill it’s working properly. You will need an Alexa Dot or Tap to complete this first step.`
+
+
 
 
 [//]: # (External Links)
