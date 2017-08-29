@@ -21,6 +21,9 @@ $ . AlexaLab/bin/activate
 
 [Flask-ask: Alexa Skills Kit Development]
 
+`OBS:. Before to go to the next steps make sure Flask-ask and Alexa Skill it’s working properly. You will need an Alexa Dot or Tap to complete this first step.`
+
+
 [//]: # (External Links)
 [virtualenv]:https://virtualenv.pypa.io/en/stable/
 [Flask-ask]:https://github.com/johnwheeler/flask-ask
