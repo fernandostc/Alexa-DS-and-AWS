@@ -1,4 +1,4 @@
-Voice Control Security Automation
+Security Automation by Voice Control
 ===
 
 ![](Docs/Architecture/architecture.png)
