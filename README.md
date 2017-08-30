@@ -69,8 +69,9 @@ $ . AlexaLab/bin/activate
 
 
 # Next Features (Planning)
-  * Create security process to keep the credentials for Deep Security and the .pem for AWS account
-  * Create some authentication when you asked the application. This could be an integration with Google Authenticator
+  * Create security process to keep the credentials for Deep Security and the .pem for AWS account.
+  * Create some authentication when you asked the application. This could be an integration with Google Authenticator.
+  
 :warning:`OBS:. This is an Open Source project that can anyone help to develop new call or features to help everyone that would like to use voice control for security automation.`
 
 [//]: # (External Links)
